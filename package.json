@@ -2,7 +2,8 @@
   "name": "pug-brunch",
   "version": "1.0.0",
   "description": "Adds Pug/Jade support to brunch.",
-  "author": {"Jordan Earls", "Paul Miller (http://paulmillr.com/)"},
+  "author": "Jordan Earls <jordanearls.92@gmail.com>",
+  "contributors": "Paul Miller (http://paulmillr.com/)",
   "homepage": "https://github.com/j0rdn/pug-brunch",
   "license": "MIT",
   "repository": {
