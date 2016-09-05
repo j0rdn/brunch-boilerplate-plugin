@@ -134,7 +134,7 @@ module.exports = class PugBrunchPlugin
     relativePath = path.relative @projectPath, templatePath
     pathTestResults = _.filter patterns, (pattern) -> pattern.test relativePath
 
-    options = _.extend {}, @jadeOptions
+    options = _.extend {}, @pugOptions
     options.filename ?= relativePath
 
     successHandler = (error, template, clientMode) =>
@@ -143,7 +143,7 @@ module.exports = class PugBrunchPlugin
 
     return
 
-      if pathTestResults.length
+    if pathTestResults.length
         output = template _.defaults @locals,
           filename: relativePath
 
