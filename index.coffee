@@ -140,10 +140,9 @@ module.exports = class PugBrunchPlugin
     successHandler = (error, template, clientMode) =>
       if error?
         callback error
+        return
 
-    return
-
-    if pathTestResults.length
+      if pathTestResults.length
         output = template _.defaults @locals,
           filename: relativePath
 
