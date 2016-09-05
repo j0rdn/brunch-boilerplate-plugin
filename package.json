@@ -1,13 +1,13 @@
 {
-  "name": "name-brunch",
+  "name": "pug-brunch",
   "version": "1.0.0",
-  "description": "Adds {{DESCRIPTION}} support to brunch.",
-  "author": "Paul Miller (http://paulmillr.com/)",
-  "homepage": "https://github.com/brunch/{{NAME}}-brunch",
+  "description": "Adds Pug/Jade support to brunch.",
+  "author": {"Jordan Earls", "Paul Miller (http://paulmillr.com/)"},
+  "homepage": "https://github.com/j0rdn/pug-brunch",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:brunch/{{NAME}}-brunch.git"
+    "url": "git@github.com:j0rdn/pug-brunch.git"
   },
   "scripts": {
     "test": "node_modules/.bin/eslint index.js && node_modules/.bin/mocha"
