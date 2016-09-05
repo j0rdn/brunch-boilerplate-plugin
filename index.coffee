@@ -23,16 +23,17 @@ localRequire = (module) ->
       throw localError
 
 
-module.exports = class JadedBrunchPlugin
+module.exports = class PugBrunchPlugin
   brunchPlugin: yes
   type: 'template'
-  extension: 'jade'
-  jadeOptions: {}
+  extension: 'pug'
+  pattern: '/(\.pug|\.jade)$/'
+  pugOptions: {}
 
   staticPath: 'public'
   projectPath: path.resolve process.cwd()
 
-  staticPatterns: /^app(\/|\\)(.+)\.static\.jade$/
+  staticPatterns: /^app(\/|\\)(.+)\.static(\.pug|\.jade)$/
 
   extensions:
     static: 'html'
@@ -48,10 +49,8 @@ module.exports = class JadedBrunchPlugin
       discoverDependencies data, path, compiler
 
   configure: ->
-    if @config.plugins?.jaded?
-      options = @config?.plugins?.jaded or @config.plugins.jade
-    else if @config.plugins?.jade?
-      options = @config?.plugins?.jaded or @config.plugins.jade
+    if @config.plugins?.pug?
+      options = @config?.plugins?.pug or @config.plugins.pug
     else
       options = {}
 
@@ -68,23 +67,23 @@ module.exports = class JadedBrunchPlugin
     else if @config.paths?.public?
       @staticPath = @config.paths.public
 
-    if options.jade?
-      @jadeOptions = options.jade
+    if options.pug?
+      @pugOptions = options.pug
     else
-      @jadeOptions = _.omit options, 'staticPatterns', 'path', 'module', 'extension', 'clientExtension', 'patches'
+      @pugOptions = _.omit options, 'staticPatterns', 'path', 'module', 'extension', 'clientExtension', 'patches'
 
-    @jadeOptions.compileDebug ?= @config.optimize is false
-    @jadeOptions.pretty ?= @config.optimize is false
+    @pugOptions.compileDebug ?= @config.optimize is false
+    @pugOptions.pretty ?= @config.optimize is false
 
-    jadePath = path.dirname require.resolve 'jade'
+    pugPath = path.dirname require.resolve 'pug'
 
     @include = [
-      path.join jadePath, '..', 'runtime.js'
+      path.join pugPath, '..', 'runtime.js'
     ]
 
-    jadeModule = options.module or 'jade'
+    pugModule = options.module or 'pug'
 
-    @jade = localRequire jadeModule
+    @pug = localRequire pugModule
 
     if options.extensions?
       for key, value of options.extensions
@@ -96,25 +95,25 @@ module.exports = class JadedBrunchPlugin
     patches.map (patch) =>
       console.log patch
       patchModule = localRequire patch
-      patchModule @jade
+      patchModule @pug
 
   makeOptions: (data) ->
     # Allow for default data in the jade options hash
-    if @jadeOptions.locals?
-      locals = _.extend {}, @jadeOptions.locals, data
+    if @pugOptions.locals?
+      locals = _.extend {}, @pugOptions.locals, data
     else
       locals = data
 
     # Allow for custom options to be passed to jade
-    return _.extend {}, @jadeOptions,
+    return _.extend {}, @pugOptions,
       locals: data
 
   templateFactory: (data, options, templatePath, callback, clientMode) ->
     try
       if clientMode is true
-        method = @jade.compileClient
+        method = @pug.compileClient
       else
-        method = @jade.compile
+        method = @pug.compile
 
       template = method data, options
 
@@ -122,6 +121,7 @@ module.exports = class JadedBrunchPlugin
       error = e
 
     callback error, template, clientMode
+
 
   compile: (data, originalPath, callback) ->
     templatePath = path.resolve originalPath
@@ -140,7 +140,8 @@ module.exports = class JadedBrunchPlugin
     successHandler = (error, template, clientMode) =>
       if error?
         callback error
-        return
+
+    return
 
       if pathTestResults.length
         output = template _.defaults @locals,
@@ -175,7 +176,8 @@ module.exports = class JadedBrunchPlugin
               if err
                 callback err, null
               else
-                callback()
+
+                  callback()
 
       else
         callback null, "module.exports = #{template};"
