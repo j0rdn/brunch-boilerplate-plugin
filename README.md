@@ -1,5 +1,5 @@
-## {{NAME}}-brunch
-Adds {{DESCRIPTION}} support to
+## pug-brunch
+Adds Pug/Jade support to
 [brunch](http://brunch.io).
 
 ## Usage
@@ -7,9 +7,9 @@ Install the plugin via npm with `npm install --save {{NAME}}-brunch`.
 
 Or, do manual install:
 
-* Add `"{{NAME}}-brunch": "~x.y.z"` to `package.json` of your brunch app.
+* Add `"pug-brunch": "~x.y.z"` to `package.json` of your brunch app.
 * If you want to use git version of plugin, use the GitHub URI
-`"{{NAME}}-brunch": "brunch/{{NAME}}-brunch"`.
+`"pug-brunch": "brunch/pug-brunch"`.
 
 ## License
 
